@@ -1,58 +1,67 @@
-# Salesforce App
+# Export/Import Data using data tree
 
-This guide helps Salesforce developers who are new to Visual Studio Code go from zero to a deployed app using Salesforce Extensions for VS Code and Salesforce CLI.
+This application is created as examples for exporting and importing data using "sfdx force:data:tree:export" and "sfdx force:data:tree:import".
 
-## Part 1: Choosing a Development Model
+Object Schema of the application - 
+In the example org we have 1 Master-Detail relationship between 2 objects and 1 Lookup relations ship between Master and another Object. All three Objects have different data type fields
 
-There are two types of developer processes or models supported in Salesforce Extensions for VS Code and Salesforce CLI. These models are explained below. Each model offers pros and cons and is fully supported.
+	MasterObject__c (Object)
+		LookupObject__c (Field - Lookup Relationship to Lookup Object)
+		MultiSelectPicklist__c (Field - MultiSelect PickList)
+		NumberField__c (Field - Number (16,2))
+		
+			ChildObject__c (Object)
+				FormulaField__c (Field - Formula (Number))
+				MasterObject__c (Field - Master:Detail Relationship)
+				TextField__c (Field - Text (80))
+	
+	LookupObject__c (Object)
+		DateTimeField__c (Field - Date Time)
+		
+# Export Process
 
-### Package Development Model
+For Export, I have 2 queries : 1 for Lookup Object records and another for Master Object and Child Object Records.
+I have created 2 query files in data/Queries folder
+	lookUpQuery.csv - It contains the query for Lookup Object
+	masterChildQuery.csv - It contains the query for Master Object with relative Child Objects
 
-The package development model allows you to create self-contained applications or libraries that are deployed to your org as a single package. These packages are typically developed against source-tracked orgs called scratch orgs. This development model is geared toward a more modern type of software development process that uses org source tracking, source control, and continuous integration and deployment.
+SFDX Commands for Export Process 
+First, I performed export of the Lookup objects using below command with --plan parameter - 
+		**sfdx force:data:tree:export -q ./data/Queries/lookUpQuery.csv -d ./data --plan**
+This created 2 files in Data folder
+		LookupObject__cs.json
+		LookupObject__c-plan.json (Open the file and make sure you have saveRefs true)
+Second, I performed export for Master Object and Child Object using below command with --plan parameter - 
+		**sfdx force:data:tree:export -q ./data/Queries/masterChildQuery.csv -d ./data --plan**
+This created 3 files in Data folder
+		MasterObject__cs.json
+		ChildObject__cs.json
+		MasterObject__c-ChildObject__c-plan.json
+To make import work successsfully, I had to do some changes in *MasterObject__cs.json* and *MasterObject__c-ChildObject__c-plan.json* files
 
-If you are starting a new project, we recommend that you consider the package development model. To start developing with this model in Visual Studio Code, see [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model). For details about the model, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) Trailhead module.
+** *Changes in MasterObject__cs.json* **
+	Open MasterObject__cs.json and add Lookup Object Reference fields in both the Master Records. Fields are added in format *"Field Name":"Value"*, in our case field is a lookup field and its value is a reference to the lookup Object record so format would be - *"Field Name":"@referenceId of related lookup record"*. 
+As 1st Master Object record is related to 1st Lookup Object records and 2nd Master Object record is related to 2nd Lookup Object record so Reference fields added to MasterObject_cs.json would be as below
+	- For first master record add "LookupObject__c":"@LookupObject__cRef1" (make sure to put comma (,) after the above field to this field)
+	- For secocnd master record add "LookupObject__c":"@LookupObject__cRef2" (make sure to put comma (,) after the above field to this field)
+**Changes in *MasterObject__c-ChildObject__c-plan.json* **
+	Copy the Lookup Object plan from *LookupObject__c-plan.json* file, make sure data between [] is copied and paste it in *MasterObject__c-ChildObject__c-plan.json* file just above the plan for Master Object. Make sure to separate Lookup Object and Master Object plans in *MasterObject__c-ChildObject__c-plan.json* file with a comma (,).
+	Also please make sure resolveRefs is ture for Master Object.
+	
+After making above changes now this data is ready for import in a org. 
+**Note -** If you want you can delete the *LookupObject__c-plan.json* file as it is no more needed.
 
-If you are developing against scratch orgs, use the command `SFDX: Create Project` (VS Code) or `sfdx force:project:create` (Salesforce CLI)  to create your project. If you used another command, you might want to start over with that command.
+# Import Process
 
-When working with source-tracked orgs, use the commands `SFDX: Push Source to Org` (VS Code) or `sfdx force:source:push` (Salesforce CLI) and `SFDX: Pull Source from Org` (VS Code) or `sfdx force:source:pull` (Salesforce CLI). Do not use the `Retrieve` and `Deploy` commands with scratch orgs.
-
-### Org Development Model
-
-The org development model allows you to connect directly to a non-source-tracked org (sandbox, Developer Edition (DE) org, Trailhead Playground, or even a production org) to retrieve and deploy code directly. This model is similar to the type of development you have done in the past using tools such as Force.com IDE or MavensMate.
-
-To start developing with this model in Visual Studio Code, see [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model). For details about the model, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) Trailhead module.
-
-If you are developing against non-source-tracked orgs, use the command `SFDX: Create Project with Manifest` (VS Code) or `sfdx force:project:create --manifest` (Salesforce CLI) to create your project. If you used another command, you might want to start over with this command to create a Salesforce DX project.
-
-When working with non-source-tracked orgs, use the commands `SFDX: Deploy Source to Org` (VS Code) or `sfdx force:source:deploy` (Salesforce CLI) and `SFDX: Retrieve Source from Org` (VS Code) or `sfdx force:source:retrieve` (Salesforce CLI). The `Push` and `Pull` commands work only on orgs with source tracking (scratch orgs).
-
-## The `sfdx-project.json` File
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-The most important parts of this file for getting started are the `sfdcLoginUrl` and `packageDirectories` properties.
-
-The `sfdcLoginUrl` specifies the default login URL to use when authorizing an org.
-
-The `packageDirectories` filepath tells VS Code and Salesforce CLI where the metadata files for your project are stored. You need at least one package directory set in your file. The default setting is shown below. If you set the value of the `packageDirectories` property called `path` to `force-app`, by default your metadata goes in the `force-app` directory. If you want to change that directory to something like `src`, simply change the `path` value and make sure the directory you’re pointing to exists.
-
-```json
-"packageDirectories" : [
-    {
-      "path": "force-app",
-      "default": true
-    }
-]
-```
-
-## Part 2: Working with Source
-
-For details about developing against scratch orgs, see the [Package Development Model](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_dev_model) module on Trailhead or [Package Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/package-development-model).
-
-For details about developing against orgs that don’t have source tracking, see the [Org Development Model](https://trailhead.salesforce.com/content/learn/modules/org-development-model) module on Trailhead or [Org Development Model with VS Code](https://forcedotcom.github.io/salesforcedx-vscode/articles/user-guide/org-development-model).
-
-## Part 3: Deploying to Production
-
-Don’t deploy your code to production directly from Visual Studio Code. The deploy and retrieve commands do not support transactional operations, which means that a deployment can fail in a partial state. Also, the deploy and retrieve commands don’t run the tests needed for production deployments. The push and pull commands are disabled for orgs that don’t have source tracking, including production orgs.
-
-Deploy your changes to production using [packaging](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_dev2gp.htm) or by [converting your source](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_source.htm#cli_reference_convert) into metadata format and using the [metadata deploy command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_mdapi.htm#cli_reference_deploy).
+For Import, run the below command - 
+	**sfdx force:data:tree:import -u tempTest -p ./data/MasterObject__c-ChildObject__c-plan.json**
+	-u would hold the alias of the org on which you want to import the data
+	-p would hold the path of the plan file.
+	
+# Key things to Remember 
+	- Name fields should not be queried if AutoNumber.
+	- Formula fields should not be queried.
+	- Lookup fields should not be queried and should be added later.
+	- If you want to populate Lookup Field on an object record then make resolveRefs true in plan for that object.
+	- If you have queried a number field with decimal values then during import a rounded value will be populated with having 0 in decimals.
+	- Value of Lookup field in Json file should always start with @

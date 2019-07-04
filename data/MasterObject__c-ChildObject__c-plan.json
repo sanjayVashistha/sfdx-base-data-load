@@ -1,0 +1,26 @@
+[
+	{
+        "sobject": "LookupObject__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "LookupObject__cs.json"
+        ]
+    },
+    {
+        "sobject": "MasterObject__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "MasterObject__cs.json"
+        ]
+    },
+    {
+        "sobject": "ChildObject__c",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "ChildObject__cs.json"
+        ]
+    }
+]

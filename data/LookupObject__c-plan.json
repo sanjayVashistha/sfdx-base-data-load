@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "LookupObject__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "LookupObject__cs.json"
+        ]
+    }
+]

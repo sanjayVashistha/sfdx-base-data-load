@@ -1,0 +1,2 @@
+SELECT Id, DateTimeField__c
+		FROM LookupObject__c

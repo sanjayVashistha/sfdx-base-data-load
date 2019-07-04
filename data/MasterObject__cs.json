@@ -1,0 +1,22 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "MasterObject__c",
+                "referenceId": "MasterObject__cRef1"
+            },
+            "MultiSelectPicklist__c": "PickList Value 2;PickList Value 4;PickList Value 6;PickList Value 8",
+            "NumberField__c": 6565689753124579,
+			"LookupObject__c":"@LookupObject__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "MasterObject__c",
+                "referenceId": "MasterObject__cRef2"
+            },
+            "MultiSelectPicklist__c": "PickList Value 1;PickList Value 3;PickList Value 5;PickList Value 7;PickList Value 9",
+            "NumberField__c": 5600231478962514,
+			"LookupObject__c":"@LookupObject__cRef2"
+        }
+    ]
+}

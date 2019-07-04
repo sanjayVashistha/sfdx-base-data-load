@@ -1,0 +1,36 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "ChildObject__c",
+                "referenceId": "ChildObject__cRef1"
+            },
+            "TextField__c": "Second Master First Child",
+            "MasterObject__c": "@MasterObject__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "ChildObject__c",
+                "referenceId": "ChildObject__cRef2"
+            },
+            "TextField__c": "Second Master Second Child",
+            "MasterObject__c": "@MasterObject__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "ChildObject__c",
+                "referenceId": "ChildObject__cRef3"
+            },
+            "TextField__c": "First Master First Child",
+            "MasterObject__c": "@MasterObject__cRef2"
+        },
+        {
+            "attributes": {
+                "type": "ChildObject__c",
+                "referenceId": "ChildObject__cRef4"
+            },
+            "TextField__c": "First Master Second Child",
+            "MasterObject__c": "@MasterObject__cRef2"
+        }
+    ]
+}

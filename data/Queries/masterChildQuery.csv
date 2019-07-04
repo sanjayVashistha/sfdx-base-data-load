@@ -1,0 +1,3 @@
+SELECT Id, MultiSelectPicklist__c, NumberField__c,
+		(SELECT Id, TextField__c, MasterObject__c from Child_Objects__r)
+		FROM MasterObject__c

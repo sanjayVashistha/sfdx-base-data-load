@@ -1,0 +1,18 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "LookupObject__c",
+                "referenceId": "LookupObject__cRef1"
+            },
+            "DateTimeField__c": "2019-06-17T14:22:00.000+0000"
+        },
+        {
+            "attributes": {
+                "type": "LookupObject__c",
+                "referenceId": "LookupObject__cRef2"
+            },
+            "DateTimeField__c": "2019-07-11T14:22:00.000+0000"
+        }
+    ]
+}
