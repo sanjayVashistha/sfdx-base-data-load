@@ -24,49 +24,50 @@ In the example org we have 1 Master-Detail relationship between 2 objects and 1 
 For Export, I have 2 queries : 1 for Lookup Object records and another for Master Object and Child Object Records.
 I have created 2 query files in data/Queries folder
 
-	**_lookUpQuery.csv_** - It contains the query for Lookup Object
+	lookUpQuery.csv - It contains the query for Lookup Object
 	
-	**_masterChildQuery.csv_** - It contains the query for Master Object with relative Child Objects
+	masterChildQuery.csv - It contains the query for Master Object with relative Child Objects
 
 **SFDX Commands for Export Process** 
 
 First, I performed export of the Lookup objects using below command with --plan parameter - 
 
-		__sfdx force:data:tree:export -q ./data/Queries/lookUpQuery.csv -d ./data --plan__
+		sfdx force:data:tree:export -q ./data/Queries/lookUpQuery.csv -d ./data --plan
 		
 This created 2 files in Data folder
 
-		**_LookupObject__cs.json_**
-		**_LookupObject__c-plan.json_** (Open the file and make sure you have saveRefs true)
+		LookupObject__cs.json
+		LookupObject__c-plan.json (Open the file and make sure you have saveRefs true)
 		
 Second, I performed export for Master Object and Child Object using below command with --plan parameter - 
 		
-		__sfdx force:data:tree:export -q ./data/Queries/masterChildQuery.csv -d ./data --plan__
+		sfdx force:data:tree:export -q ./data/Queries/masterChildQuery.csv -d ./data --plan
 		
 This created 3 files in Data folder
 		
-		**_MasterObject__cs.json_**
+		MasterObject__cs.json
 		
-		**_ChildObject__cs.json_**
+		ChildObject__cs.json
 		
-		**_MasterObject__c-ChildObject__c-plan.json_**
+		MasterObject__c-ChildObject__c-plan.json
 		
 To make import work successsfully, I had to do some changes in **_MasterObject__cs.json_** and **_MasterObject__c-ChildObject__c-plan.json_** files
 
-**_Changes in MasterObject__cs.json_**
+**Changes in MasterObject__cs.json**
 
-	Open MasterObject__cs.json and add Lookup Object Reference fields in both the Master Records. Fields are added in format **_"Field Name":"Value"_**, in our case field is a lookup field and its value is a reference to the lookup Object record so format would be - **_"Field Name":"@referenceId of related lookup record"_**. 
+Open MasterObject__cs.json and add Lookup Object Reference fields in both the Master Records. Fields are added in format "Field Name":"Value", in our case field is a lookup field and its value is a reference to the lookup Object record so format would be - "Field Name":"@referenceId of related lookup record".
+
 As 1st Master Object record is related to 1st Lookup Object records and 2nd Master Object record is related to 2nd Lookup Object record so Reference fields added to MasterObject_cs.json would be as below
 
-	- For first master record add **_"LookupObject__c":"@LookupObject__cRef1"_**  **(make sure to put comma (,) after the above field to this field)**
+	- For first master record add "LookupObject__c":"@LookupObject__cRef1"  (make sure to put comma (,) after the above field to this field)
 	
-	- For secocnd master record add **_"LookupObject__c":"@LookupObject__cRef2"_**  **(make sure to put comma (,) after the above field to this field)**
+	- For secocnd master record add "LookupObject__c":"@LookupObject__cRef2" (make sure to put comma (,) after the above field to this field)
 	
-_Changes in **_MasterObject__c-ChildObject__c-plan.json_**
+**Changes in MasterObject__c-ChildObject__c-plan.json**
 
-	Copy the Lookup Object plan from **_LookupObject__c-plan.json_** file, make sure data between [] is copied and paste it in **_MasterObject__c-ChildObject__c-plan.json_** file just above the plan for Master Object. Make sure to separate Lookup Object and Master Object plans in **_MasterObject__c-ChildObject__c-plan.json_** file with a comma (,).
+Copy the Lookup Object plan from LookupObject__c-plan.json file, make sure data between [] is copied and paste it in MasterObject__c-ChildObject__c-plan.json file just above the plan for Master Object. Make sure to separate Lookup Object and Master Object plans in MasterObject__c-ChildObject__c-plan.json file with a comma (,).
 	
-	Also please make sure _resolveRefs_ is ture for Master Object.
+Also please make sure _resolveRefs_ is ture for Master Object.
 	
 After making above changes now this data is ready for import in a org. 
 
@@ -77,8 +78,8 @@ After making above changes now this data is ready for import in a org.
 For Import, run the below command -
  
 	sfdx force:data:tree:import -u tempTest -p ./data/MasterObject__c-ChildObject__c-plan.json
-	**-u_ would hold the alias of the org on which you want to import the data**
-	**-p_ would hold the path of the plan file.**
+	-u_ would hold the alias of the org on which you want to import the data
+	-p_ would hold the path of the plan file.
 	
 # Key things to Remember 
 	- Name fields should not be queried if AutoNumber.
