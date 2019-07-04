@@ -77,8 +77,8 @@ After making above changes now this data is ready for import in a org.
 For Import, run the below command -
  
 	**sfdx force:data:tree:import -u tempTest -p ./data/MasterObject__c-ChildObject__c-plan.json**
-	_-u_ would hold the alias of the org on which you want to import the data
-	_-p_ would hold the path of the plan file.
+	__-u_ would hold the alias of the org on which you want to import the data__
+	__-p_ would hold the path of the plan file.__
 	
 # Key things to Remember 
 	- Name fields should not be queried if AutoNumber.
