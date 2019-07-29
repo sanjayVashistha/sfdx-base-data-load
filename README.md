@@ -32,18 +32,18 @@ I have created 2 query files in data/Queries folder
 
 First, I performed export of the Lookup objects using below command with --plan parameter - 
 
-		sfdx force:data:tree:export -q ./data/Queries/lookUpQuery.csv -d ./data --plan
+		sfdx force:data:tree:export -q ./data/Queries/lookUpQuery.csv -d ./data/SampleData --plan
 		
-This created 2 files in Data folder
+This created 2 files in Data/SampleData folder
 
 		LookupObject__cs.json
 		LookupObject__c-plan.json (Open the file and make sure you have saveRefs true)
 		
 Second, I performed export for Master Object and Child Object using below command with --plan parameter - 
 		
-		sfdx force:data:tree:export -q ./data/Queries/masterChildQuery.csv -d ./data --plan
+		sfdx force:data:tree:export -q ./data/Queries/masterChildQuery.csv -d ./data/SampleData --plan
 		
-This created 3 files in Data folder
+This created 3 files in Data/SampleData folder
 		
 		MasterObject__cs.json
 		
@@ -77,14 +77,55 @@ After making above changes now this data is ready for import in a org.
 
 For Import, run the below command -
  
-	sfdx force:data:tree:import -u tempTest -p ./data/MasterObject__c-ChildObject__c-plan.json
+	sfdx force:data:tree:import -u tempTest -p ./data/SampleData/MasterObject__c-ChildObject__c-plan.json
 	-u_ would hold the alias of the org on which you want to import the data
 	-p_ would hold the path of the plan file.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Another Example including Account, Contact, Opportunity, Case and Operating Hours (Lookup on Account)
+In Another example I have some Accounts which have related Contact, Opportunity and Case Records. Account have 1 lookup Relationship with Operating Hours object. So first you would need to fetch Operating Hours Object records, using the query in Data/Queries/OperatingHours.csv. I used below command to fetch Operating Hours data. Keeping all fetched data in separate Accounts folder under Data folder.
+
+sfdx force:data:tree:export -q ./data/Queries/OperatingHoursQuery.csv -d ./data/Accounts --plan
+		
+This created 3 files in Data/Accounts folder
+
+		OperatingHours-Account-plan.json
+		OperatingHourss.json
+		Accounts.json
+		
+Second, I performed export for Account and its Child Objects (Contact, Opportunity and Case) using below command with --plan parameter - 
+		
+		sfdx force:data:tree:export -q ./data/Queries/AccountQuery.csv -d ./data/Accounts --plan
+		
+This created 4 files in Data/Accounts folder and updated the Accounts.Json file
+		
+		Accounts.json (Changes done in previous import will be overriden)
+		
+		Cases.json
+
+		Contacts.Json
+
+		Opportunitys.Json
+		
+		Account-Case-Contact-Opportunity-plan.json
+		
+To make import work successsfully, I had to do some changes in **_Accounts.json_** and **_Account-Case-Contact-Opportunity-plan.json_** files
+
+**Changes in Accounts.json**
+
+Open Accounts.json and add Operating Hours Reference fields in all the Account Records. Fields are added in format "Field Name":"Value", in our case field is a lookup field and its value is a reference to the Operating Hours record so format would be - "Field Name":"@referenceId of related lookup record".
+
+	- "OperatingHoursId": "@OperatingHoursRef1"  (make sure to put comma (,) after the above field to this field)
 	
-# Key things to Remember 
-	- Name fields should not be queried if AutoNumber.
-	- Formula fields should not be queried.
-	- Lookup fields should not be queried and should be added later.
-	- If you want to populate Lookup Field on an object record then make resolveRefs true in plan for that object.
-	- If you have queried a number field with decimal values then during import a rounded value will be populated with having 0 in decimals.
-	- Value of Lookup field in Json file should always start with @
+**Changes in Account-Case-Contact-Opportunity-plan.json**
+
+Copy the Operating Hours plan from OperatingHours-Account-plan.json file and paste it just above Accounts plan in **Account-Case-Contact-Opportunity-plan.json**. Make sure to separate Operating Hours and other plans in Account-Case-Contact-Opportunity-plan.json file with a comma (,).
+	
+Also please make sure _resolveRefs_ is ture for Accounts Object.
+	
+After making above changes now this data is ready for import in a org. Run the following command to import the data in any org:
+
+	sfdx force:data:tree:import -u tempTest -p ./data/Accounts/Account-Case-Contact-Opportunity-plan.json
+	-u would hold the alias of the org on which you want to import the data
+	-p would hold the path of the plan file.

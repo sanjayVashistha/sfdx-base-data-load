@@ -1,0 +1,41 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef1"
+            },
+            "FirstName": "Ben",
+            "LastName": "Smith",
+            "Email": "ben.smith@ecb.uk",
+            "Fax": "(213) 689-7845",
+            "LeadSource": "Phone Inquiry",
+            "MailingCity": "London",
+            "MailingCountry": "UK",
+            "MailingPostalCode": "NW8 8QZ",
+            "MailingStreet": "St John's Wood Rd",
+            "MobilePhone": "(321) 232-1456",
+            "Phone": "(478) 965-4789",
+            "AccountId": "@AccountRef2"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef2"
+            },
+            "FirstName": "Haseena",
+            "LastName": "Noor",
+            "Email": "noor.haseena@bcb.ban",
+            "Fax": "(258) 525-8525",
+            "LeadSource": "Partner Referral",
+            "MailingCity": "Mirpur",
+            "MailingCountry": "Bangladesh",
+            "MailingPostalCode": "1216",
+            "MailingState": "Dhaka",
+            "MailingStreet": "Sher-e-Bangla National Cricket Stadium",
+            "MobilePhone": "(235) 689-8745",
+            "Phone": "(656) 565-6985",
+            "AccountId": "@AccountRef3"
+        }
+    ]
+}

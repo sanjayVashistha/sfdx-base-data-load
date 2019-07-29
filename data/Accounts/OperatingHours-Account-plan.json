@@ -1,0 +1,18 @@
+[
+    {
+        "sobject": "OperatingHours",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "OperatingHourss.json"
+        ]
+    },
+    {
+        "sobject": "Account",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "Accounts.json"
+        ]
+    }
+]

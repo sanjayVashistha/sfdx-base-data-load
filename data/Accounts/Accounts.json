@@ -1,0 +1,40 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef2"
+            },
+            "Fax": "(213) 689-7845",
+            "Industry": "Retail",
+            "Name": "ECB",
+            "Phone": "(478) 965-4789",
+            "Rating": "Hot",
+            "Website": "www.ecb.co.uk",
+            "BillingCity": "London",
+            "BillingCountry": "UK",
+            "BillingPostalCode": "NW8 8QZ",
+            "BillingStreet": "St John's Wood Rd",
+            "NumberOfEmployees": 250,
+			"OperatingHoursId": "@OperatingHoursRef1"
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef3"
+            },
+            "Fax": "(258) 525-8525",
+            "Industry": "Retail",
+            "Name": "BCB",
+            "Phone": "(656) 565-6985",
+            "Rating": "Warm",
+            "Website": "www.bcb.co.ban",
+            "BillingCity": "Mirpur",
+            "BillingCountry": "Bangladesh",
+            "BillingPostalCode": "1216",
+            "BillingState": "Dhaka",
+            "BillingStreet": "Sher-e-Bangla National Cricket Stadium",
+            "NumberOfEmployees": 250
+        }
+    ]
+}

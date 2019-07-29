@@ -1,0 +1,42 @@
+[
+    {
+        "sobject": "OperatingHours",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "OperatingHourss.json"
+        ]
+    },
+	{
+        "sobject": "Account",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Accounts.json"
+        ]
+    },
+    {
+        "sobject": "Case",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "Cases.json"
+        ]
+    },
+    {
+        "sobject": "Contact",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "Contacts.json"
+        ]
+    },
+    {
+        "sobject": "Opportunity",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "Opportunitys.json"
+        ]
+    }
+]

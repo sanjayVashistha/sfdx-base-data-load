@@ -1,0 +1,3 @@
+SELECT Id, Name, 
+	(SELECT Id, OperatingHoursId FROM Accounts)
+FROM OperatingHours

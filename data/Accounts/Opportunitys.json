@@ -1,0 +1,28 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Opportunity",
+                "referenceId": "OpportunityRef1"
+            },
+            "AccountId": "@AccountRef2",
+            "CloseDate": "2019-09-30",
+            "LeadSource": "Phone Inquiry",
+            "Name": "ECB-",
+            "Probability": 10,
+            "StageName": "Prospecting"
+        },
+        {
+            "attributes": {
+                "type": "Opportunity",
+                "referenceId": "OpportunityRef2"
+            },
+            "AccountId": "@AccountRef3",
+            "CloseDate": "2019-09-30",
+            "LeadSource": "Partner Referral",
+            "Name": "BCB-",
+            "Probability": 10,
+            "StageName": "Prospecting"
+        }
+    ]
+}

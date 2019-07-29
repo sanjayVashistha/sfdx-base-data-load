@@ -1,0 +1,15 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Case",
+                "referenceId": "CaseRef1"
+            },
+            "Priority": "Medium",
+            "Status": "New",
+            "Subject": "Not able to connect to dealer",
+            "Type": "Other",
+            "AccountId": "@AccountRef2"
+        }
+    ]
+}

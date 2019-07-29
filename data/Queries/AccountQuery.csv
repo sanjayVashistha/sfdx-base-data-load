@@ -1,0 +1,7 @@
+SELECT Fax,Industry,Name,Phone,Rating,Website,BillingCity,BillingCountry,BillingGeocodeAccuracy,
+		BillingLatitude,BillingLongitude,BillingPostalCode,BillingState,BillingStreet,NumberOfEmployees,
+		(SELECT Comments,Priority,Status,Subject,Type FROM Cases),
+		(SELECT FirstName,LastName,Email,Fax,LeadSource,MailingCity,MailingCountry,MailingGeocodeAccuracy,MailingLatitude,MailingLongitude,
+			MailingPostalCode,MailingState,MailingStreet,MobilePhone,Phone FROM Contacts),
+		(SELECT AccountId,CloseDate,LeadSource,Name,Probability,StageName FROM Opportunities)
+FROM Account
